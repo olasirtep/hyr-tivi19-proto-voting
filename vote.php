@@ -28,9 +28,17 @@ try {
 *   Jos pyynnössä on mukava arvo nimellä 'vote', tallennetaan äänestys tietokantaan
 */
 if (isset($_POST['vote'])) {
+    // Haetaan äänestyksen valinta
     $vote = $_POST['vote'];
+    // Haetaan käyttäjän ip-osoite
     $ip = $_SERVER['REMOTE_ADDR'];
-    $conn->exec("INSERT INTO votes (vote, ip) VALUES (".$vote.", '".$ip."')");
+
+    // Määritellään SQL-kysely
+    $sql = "INSERT INTO votes (vote, ip) VALUES (?, ?)";
+    // Lähetetään kysely palvelimelle
+    $sttm = $conn->prepare($sql);
+    // Suoritetaan kysely muuttujiin asetetuilla arvoilla
+    $sttm->execute(array($vote, $ip));
 }
 
 // SQL-kysely, jolla haetaan eri vaihtoehtojen äänimäärät
