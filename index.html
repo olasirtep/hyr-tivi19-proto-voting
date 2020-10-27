@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Äänestyssivu</title>
 </head>
 <body>
     <h1>Millainen on ollut vuosi 2020?</h1>
@@ -22,10 +22,15 @@
         <li>Kamala <b id="v1">0</b> ääntä</li>
     </ul>
 
+    <!--Linkitetään jQuery mukaan-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <!--Omaa Javascript koodia-->
     <script>
+        // Luodaan tyhjä sanakirja äänimääriä varten
         var votes = {};
 
+        // Sivun latautuessa haetaan vote.php:lta äänestystilanne
         $(function() {
             $.getJSON("vote.php", function(result) {
                 votes = result;
@@ -33,6 +38,7 @@
             });
         });
 
+        // Tällä funktiolla äänestys välitetään vote.php:lle
         function vote(choice) {
             $.post("vote.php", {vote: choice}, function(result) {
                 votes = result;
@@ -40,6 +46,7 @@
             }, 'json');
         }
 
+        // Näytetään web-sivulla eri vaihtoehtojen äänimäärät
         function showResults() {
             $("#v5").text(votes['5']);
             $("#v4").text(votes['4']);
