@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Millainen on ollut vuosi 2020?</h1>
+    <button onclick="vote(5)">Mahtava</button>
+    <button onclick="vote(4)">Hyvä</button>
+    <button onclick="vote(3)">Ihan OK</button>
+    <button onclick="vote(2)">Siedettävä</button>
+    <button onclick="vote(1)">Kamala</button>
+
+    <h2>Tulokset</h2>
+    <ul>
+        <li>Mahtava <b id="v5">0</b> ääntä</li>
+        <li>Hyvä <b id="v4">0</b> ääntä</li>
+        <li>Ihan OK <b id="v3">0</b> ääntä</li>
+        <li>Siedettävä <b id="v2">0</b> ääntä</li>
+        <li>Kamala <b id="v1">0</b> ääntä</li>
+    </ul>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var votes = {};
+
+        $(function() {
+            $.getJSON("vote.php", function(result) {
+                votes = result;
+                showResults();
+            });
+        });
+
+        function vote(choice) {
+            $.post("vote.php", {vote: choice}, function(result) {
+                votes = result;
+                showResults();
+            }, 'json');
+        }
+
+        function showResults() {
+            $("#v5").text(votes['5']);
+            $("#v4").text(votes['4']);
+            $("#v3").text(votes['3']);
+            $("#v2").text(votes['2']);
+            $("#v1").text(votes['1']);
+        }
+    </script>
+</body>
+</html>
